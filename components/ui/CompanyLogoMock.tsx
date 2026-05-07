@@ -25,7 +25,7 @@ export function CompanyLogoMock({ company, domain, size = 'sm' }: CompanyLogoMoc
 
   return (
     <img
-      src={`https://www.google.com/s2/favicons?domain=${domain}&sz=128`}
+      src={`https://img.logo.dev/${domain}?token=${process.env.NEXT_PUBLIC_LOGO_DEV_TOKEN}&size=128`}
       alt={company}
       className={`${dim} rounded object-cover shrink-0`}
       onError={() => setFailed(true)}

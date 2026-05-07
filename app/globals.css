@@ -2,7 +2,7 @@
 
 @theme inline {
   --font-sans: var(--font-manrope);
-  --font-serif: var(--font-instrument-serif);
+  --font-serif: var(--font-display);
   --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
 
   /* Warm background & surfaces */

@@ -11,13 +11,14 @@ import {
   useSensor,
   useSensors,
   closestCenter,
+  CollisionDetection,
 } from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { Application, PipelineStage, STAGE_ORDER } from '@/types';
+import { Application, PipelineStage, STAGE_ORDER, STAGE_LABELS } from '@/types';
 import { KanbanColumn, COL_PREFIX } from './KanbanColumn';
 import { ApplicationCard } from './ApplicationCard';
 
@@ -43,12 +44,14 @@ type ActiveItem =
 interface KanbanBoardProps {
   applications: Application[];
   onStageChange: (id: string, stage: PipelineStage) => void;
+  onEdit?: (app: Application) => void;
 }
 
-export function KanbanBoard({ applications, onStageChange }: KanbanBoardProps) {
+export function KanbanBoard({ applications, onStageChange, onEdit }: KanbanBoardProps) {
   const [columnOrder, setColumnOrder] = useState<PipelineStage[]>(STAGE_ORDER);
   const [activeItem, setActiveItem] = useState<ActiveItem>(null);
   const savedOrder = useRef<PipelineStage[]>(STAGE_ORDER);
+  const activeItemRef = useRef<ActiveItem>(null);
 
   useEffect(() => {
     const order = loadColumnOrder();
@@ -57,27 +60,44 @@ export function KanbanBoard({ applications, onStageChange }: KanbanBoardProps) {
   }, []);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
   );
 
   const byStage = Object.fromEntries(
     columnOrder.map((s) => [s, applications.filter((a) => a.stage === s)])
   ) as Record<PipelineStage, Application[]>;
 
-  // IDs used by the column SortableContext
   const columnSortableIds = columnOrder.map((s) => `${COL_PREFIX}${s}`);
+
+  // Separate collision detection for cards vs columns so they don't interfere
+  const collisionDetection: CollisionDetection = useCallback((args) => {
+    const isColumnDrag = activeItemRef.current?.type === 'column';
+    return closestCenter({
+      ...args,
+      droppableContainers: args.droppableContainers.filter((c) =>
+        isColumnDrag
+          ? c.id.toString().startsWith(COL_PREFIX)
+          : !c.id.toString().startsWith(COL_PREFIX)
+      ),
+    });
+  }, []);
 
   function handleDragStart(event: DragStartEvent) {
     const { active } = event;
     const type = active.data.current?.type;
 
     if (type === 'column') {
-      const stage = active.data.current?.stage as PipelineStage;
-      setActiveItem({ type: 'column', stage });
+      const item: ActiveItem = { type: 'column', stage: active.data.current?.stage as PipelineStage };
+      setActiveItem(item);
+      activeItemRef.current = item;
       savedOrder.current = [...columnOrder];
     } else {
       const app = applications.find((a) => a.id === active.id);
-      if (app) setActiveItem({ type: 'card', app });
+      if (app) {
+        const item: ActiveItem = { type: 'card', app };
+        setActiveItem(item);
+        activeItemRef.current = item;
+      }
     }
   }
 
@@ -85,42 +105,37 @@ export function KanbanBoard({ applications, onStageChange }: KanbanBoardProps) {
     const { active, over } = event;
     if (!over || active.data.current?.type !== 'column') return;
 
-    const activeColId = active.id.toString(); // col::stage
-    const overColId = over.id.toString().startsWith(COL_PREFIX)
-      ? over.id.toString()
-      : `${COL_PREFIX}${over.id.toString()}`; // normalise card-droppable IDs
+    const activeId = active.id.toString();
+    const overId = over.id.toString();
 
-    if (activeColId === overColId) return;
+    if (!overId.startsWith(COL_PREFIX) || activeId === overId) return;
 
-    const activeStage = activeColId.replace(COL_PREFIX, '') as PipelineStage;
-    const overStage = overColId.replace(COL_PREFIX, '') as PipelineStage;
+    const activeStage = activeId.replace(COL_PREFIX, '') as PipelineStage;
+    const overStage = overId.replace(COL_PREFIX, '') as PipelineStage;
 
     const oldIdx = columnOrder.indexOf(activeStage);
     const newIdx = columnOrder.indexOf(overStage);
 
-    if (oldIdx !== -1 && newIdx !== -1) {
-      setColumnOrder(arrayMove(columnOrder, oldIdx, newIdx));
+    if (oldIdx !== -1 && newIdx !== -1 && oldIdx !== newIdx) {
+      setColumnOrder((prev) => arrayMove(prev, oldIdx, newIdx));
     }
   }
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     setActiveItem(null);
+    activeItemRef.current = null;
 
-    // Column drag ended
     if (active.data.current?.type === 'column') {
       if (!over) {
-        // dropped outside — restore saved order
         setColumnOrder(savedOrder.current);
       } else {
-        // commit whatever order we've previewed
         localStorage.setItem(STORAGE_KEY, JSON.stringify(columnOrder));
         savedOrder.current = [...columnOrder];
       }
       return;
     }
 
-    // Card drag ended
     if (!over) return;
     const draggedApp = applications.find((a) => a.id === active.id);
     if (!draggedApp) return;
@@ -141,16 +156,16 @@ export function KanbanBoard({ applications, onStageChange }: KanbanBoardProps) {
   }
 
   function handleDragCancel() {
+    const wasColumn = activeItemRef.current?.type === 'column';
     setActiveItem(null);
-    if (activeItem?.type === 'column') {
-      setColumnOrder(savedOrder.current);
-    }
+    activeItemRef.current = null;
+    if (wasColumn) setColumnOrder(savedOrder.current);
   }
 
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={collisionDetection}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
@@ -163,6 +178,7 @@ export function KanbanBoard({ applications, onStageChange }: KanbanBoardProps) {
               key={stage}
               stage={stage}
               applications={byStage[stage] ?? []}
+              onEdit={onEdit}
             />
           ))}
         </div>
@@ -178,7 +194,7 @@ export function KanbanBoard({ applications, onStageChange }: KanbanBoardProps) {
           <div className="w-52 bg-surface border-2 border-zinc-300 rounded-xl shadow-2xl overflow-hidden opacity-90">
             <div className="px-3 py-2.5 border-b border-border bg-zinc-50">
               <span className="text-sm font-semibold text-zinc-600">
-                {activeItem.stage}
+                {STAGE_LABELS[activeItem.stage]}
               </span>
             </div>
             <div className="p-2 flex flex-col gap-2">

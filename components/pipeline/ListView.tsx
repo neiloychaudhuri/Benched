@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Application, PipelineStage, STAGE_LABELS, STAGE_ORDER } from '@/types';
 import { formatRelativeTime, formatCompanyName } from '@/lib/utils';
 import { CompanyLogo } from '@/components/ui/CompanyLogo';
-import { Trash2, ChevronUp, ChevronDown, Ghost } from 'lucide-react';
+import { ChevronUp, ChevronDown, Ghost, Pencil } from 'lucide-react';
 
 const STAGE_BADGE_STYLES: Record<PipelineStage, string> = {
   applied: 'bg-zinc-100 text-zinc-600',
@@ -23,10 +23,10 @@ type SortKey = 'company_name' | 'stage' | 'last_activity_at' | 'applied_at';
 interface ListViewProps {
   applications: Application[];
   onStageChange: (id: string, stage: PipelineStage) => void;
-  onDelete: (id: string) => void;
+  onEdit?: (app: Application) => void;
 }
 
-export function ListView({ applications, onStageChange, onDelete }: ListViewProps) {
+export function ListView({ applications, onStageChange, onEdit }: ListViewProps) {
   const [sortKey, setSortKey] = useState<SortKey>('last_activity_at');
   const [sortAsc, setSortAsc] = useState(false);
 
@@ -151,13 +151,15 @@ export function ListView({ applications, onStageChange, onDelete }: ListViewProp
                       </option>
                     ))}
                   </select>
-                  <button
-                    onClick={() => onDelete(app.id)}
-                    className="p-1 text-text-muted hover:text-danger hover:bg-danger-light rounded-lg transition-colors"
-                    title="Delete"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                  {onEdit && (
+                    <button
+                      onClick={() => onEdit(app)}
+                      className="p-1 text-text-muted hover:text-text-secondary hover:bg-surface-muted rounded-lg transition-colors"
+                      title="Edit"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+                  )}
                 </div>
               </td>
             </tr>

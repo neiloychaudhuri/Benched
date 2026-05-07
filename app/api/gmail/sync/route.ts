@@ -196,15 +196,19 @@ export async function POST(request: NextRequest) {
       const existing = existingMap.get(normalizedCompany);
 
       if (!existing) {
+        const companyName =
+          [...applicationMap.keys()].find(
+            (k) => normalizeCompanyName(k) === normalizedCompany
+          ) ?? normalizedCompany;
         await supabase.from('applications').insert({
           user_id: user.id,
-          company_name:
-            [...applicationMap.keys()].find(
-              (k) => normalizeCompanyName(k) === normalizedCompany
-            ) ?? normalizedCompany,
+          company_name: companyName,
           stage: info.stage,
           applied_at: info.appliedAt.toISOString(),
           last_activity_at: info.lastActivityAt.toISOString(),
+          original_company_name: companyName,
+          original_role_title: info.roleTitle ?? null,
+          original_stage: info.stage,
         });
         summary.new_applications++;
       } else {

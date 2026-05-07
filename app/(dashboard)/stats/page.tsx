@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { RecruitingStats, Application } from '@/types';
+import { CompanyLogoMock } from '@/components/ui/CompanyLogoMock';
 import { StatsGrid } from '@/components/stats/StatsGrid';
 import { StageBreakdownChart } from '@/components/stats/StageBreakdownChart';
 import { ActivityTimeline } from '@/components/stats/ActivityTimeline';
@@ -60,14 +61,15 @@ export default function StatsPage() {
           <h2 className="text-base font-semibold text-text-primary mb-4">
             Top Companies Applied To
           </h2>
-          <ol className="space-y-2">
+          <div className="space-y-2">
             {stats.top_companies.map((company, i) => (
-              <li key={company} className="flex items-center gap-3">
-                <span className="text-xs font-mono text-text-muted w-5">{i + 1}</span>
-                <span className="text-sm text-text-primary">{company}</span>
-              </li>
+              <div key={company} className="flex items-center gap-3 bg-surface border border-border rounded-xl p-3">
+                <span className="text-xs font-mono text-text-muted w-5 shrink-0 text-right">{i + 1}</span>
+                <CompanyLogoMock company={company} domain={`${company.toLowerCase().replace(/\s+/g, '')}.com`} size="sm" />
+                <span className="text-sm font-medium text-text-primary capitalize">{company}</span>
+              </div>
             ))}
-          </ol>
+          </div>
         </div>
       )}
     </div>

@@ -46,6 +46,9 @@ export interface Application {
   notes: string | null;
   created_at: string;
   updated_at: string;
+  original_company_name?: string | null;
+  original_role_title?: string | null;
+  original_stage?: PipelineStage | null;
 }
 
 export interface Email {

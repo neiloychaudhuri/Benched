@@ -9,7 +9,7 @@ import { GripVertical, Ghost, PartyPopper } from 'lucide-react';
 
 export const COL_PREFIX = 'col::';
 
-function SortableCard({ application }: { application: Application }) {
+function SortableCard({ application, onEdit }: { application: Application; onEdit?: (app: Application) => void }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: application.id, data: { type: 'card' } });
 
@@ -24,7 +24,7 @@ function SortableCard({ application }: { application: Application }) {
       {...attributes}
       {...listeners}
     >
-      <ApplicationCard application={application} />
+      <ApplicationCard application={application} onEdit={onEdit} />
     </div>
   );
 }
@@ -32,15 +32,12 @@ function SortableCard({ application }: { application: Application }) {
 interface KanbanColumnProps {
   stage: PipelineStage;
   applications: Application[];
+  onEdit?: (app: Application) => void;
 }
 
-const COLUMN_ACCENTS: Partial<Record<PipelineStage, string>> = {
-  offer: 'border-t-success',
-  ghosted: 'border-t-ghost',
-  rejected: 'border-t-danger',
-};
+const COLUMN_ACCENTS: Partial<Record<PipelineStage, string>> = {};
 
-export function KanbanColumn({ stage, applications }: KanbanColumnProps) {
+export function KanbanColumn({ stage, applications, onEdit }: KanbanColumnProps) {
   // Sortable for the column itself (drag handle)
   const {
     attributes,
@@ -68,9 +65,7 @@ export function KanbanColumn({ stage, applications }: KanbanColumnProps) {
         transform: CSS.Transform.toString(transform),
         transition,
       }}
-      className={`flex-shrink-0 w-52 flex flex-col rounded-xl border-2 border-t-4 ${
-        COLUMN_ACCENTS[stage] ?? 'border-t-border'
-      } border-border bg-surface-muted ${
+      className={`flex-shrink-0 w-52 flex flex-col rounded-xl border border-border bg-surface-muted ${
         isCardOver ? 'bg-zinc-100/60' : ''
       } ${isDragging ? 'opacity-30 scale-95' : ''} ${isGhostedCol ? 'opacity-70' : ''}`}
     >
@@ -106,7 +101,7 @@ export function KanbanColumn({ stage, applications }: KanbanColumnProps) {
           className="flex-1 p-1.5 flex flex-col gap-1.5 min-h-20 overflow-y-auto max-h-[calc(100vh-210px)]"
         >
           {applications.map((app) => (
-            <SortableCard key={app.id} application={app} />
+            <SortableCard key={app.id} application={app} onEdit={onEdit} />
           ))}
         </div>
       </SortableContext>

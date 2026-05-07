@@ -16,9 +16,11 @@ export async function PATCH(
 
   const { id } = await params;
   const body = await request.json();
-  const { stage, notes } = body;
+  const { stage, notes, company_name, role_title } = body;
 
   const updates: Record<string, unknown> = {};
+  if (company_name !== undefined) updates.company_name = company_name;
+  if (role_title !== undefined) updates.role_title = role_title;
   if (stage !== undefined) {
     updates.stage = stage;
     updates.last_activity_at = new Date().toISOString();

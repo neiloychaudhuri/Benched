@@ -36,7 +36,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="bg-surface border border-border rounded-xl p-8 shadow-sm text-center">
           <div className="mb-8">
-            <h1 className="font-serif text-3xl text-text-primary">
+            <h1 className="font-semibold text-text-primary tracking-tight text-xl">
               Benched
             </h1>
             <p className="mt-2 text-text-secondary text-sm">

@@ -100,7 +100,7 @@ interface CompanyLogoProps {
 export function CompanyLogo({ name, size = 'md' }: CompanyLogoProps) {
   const [failed, setFailed] = useState(false);
   const domain = guessDomain(name);
-  const logoUrl = `https://logo.clearbit.com/${domain}`;
+  const logoUrl = `https://img.logo.dev/${domain}?token=${process.env.NEXT_PUBLIC_LOGO_DEV_TOKEN}&size=128`;
   const color = colorForName(name);
   const init = initials(name);
   const dim = size === 'sm' ? 'h-6 w-6 text-xs' : 'h-8 w-8 text-sm';
@@ -114,11 +114,13 @@ export function CompanyLogo({ name, size = 'md' }: CompanyLogoProps) {
   }
 
   return (
-    <img
-      src={logoUrl}
-      alt={name}
-      className={`${dim} rounded-lg object-contain bg-white border border-border flex-shrink-0`}
-      onError={() => setFailed(true)}
-    />
+    <div className={`${dim} rounded-lg overflow-hidden flex-shrink-0`}>
+      <img
+        src={logoUrl}
+        alt={name}
+        className="w-full h-full object-cover"
+        onError={() => setFailed(true)}
+      />
+    </div>
   );
 }

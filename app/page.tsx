@@ -1,59 +1,8 @@
 import Link from 'next/link';
 import { ArrowRight, Inbox, Sparkles, BarChart2, Ghost, Share2, Shield } from 'lucide-react';
 import Iridescence from '@/components/ui/Iridescence';
+import { MockKanban } from '@/components/ui/MockKanban';
 import { CompanyLogoMock } from '@/components/ui/CompanyLogoMock';
-
-const MOCK_COLUMNS = [
-  {
-    stage: 'Applied',
-    count: 24,
-    badge: 'bg-zinc-100 text-zinc-600',
-    cards: [
-      { company: 'Google', domain: 'google.com', role: 'Software Engineer', time: '2d' },
-      { company: 'Stripe', domain: 'stripe.com', role: 'Backend Engineer', time: '4d' },
-      { company: 'Figma', domain: 'figma.com', role: 'Product Designer', time: '1w' },
-    ],
-  },
-  {
-    stage: 'Phone Screen',
-    count: 8,
-    badge: 'bg-zinc-100 text-zinc-600',
-    cards: [
-      { company: 'Linear', domain: 'linear.app', role: 'Full Stack Eng', time: '3d' },
-      { company: 'Vercel', domain: 'vercel.com', role: 'DX Engineer', time: '5d' },
-      { company: 'Polarity', domain: 'polarity.so', role: 'Software Engineer', time: '6d' },
-    ],
-  },
-  {
-    stage: 'Interview',
-    count: 5,
-    badge: 'bg-neutral-200 text-neutral-700',
-    cards: [
-      { company: 'Anthropic', domain: 'anthropic.com', role: 'Software Engineer', time: '1d' },
-      { company: 'Notion', domain: 'notion.so', role: 'Frontend Engineer', time: '3d' },
-      { company: 'OpenAI', domain: 'openai.com', role: 'Product Engineer', time: '5d' },
-    ],
-  },
-  {
-    stage: 'Offer',
-    count: 2,
-    badge: 'bg-success-light text-success',
-    cards: [
-      { company: 'Coinbase', domain: 'coinbase.com', role: 'iOS Engineer', time: 'Today' },
-      { company: 'Adobe', domain: 'adobe.com', role: 'Software Engineer', time: '2d' },
-    ],
-  },
-  {
-    stage: 'Ghosted',
-    count: 9,
-    badge: 'bg-ghost-light text-ghost',
-    cards: [
-      { company: 'Meta', domain: 'meta.com', role: 'Product Manager', time: '14d' },
-      { company: 'Shopify', domain: 'shopify.com', role: 'Backend Eng', time: '3w' },
-      { company: 'Pinterest', domain: 'pinterest.com', role: 'iOS Engineer', time: '3w' },
-    ],
-  },
-];
 
 export default function LandingPage() {
   return (
@@ -82,15 +31,33 @@ export default function LandingPage() {
 
         <section className="relative max-w-6xl mx-auto px-6 pt-24 pb-20">
 
-          <h1 className="font-serif text-6xl md:text-7xl text-text-primary leading-[1.05] mb-6 max-w-3xl">
+          <h1 className="font-serif font-bold text-[3rem] md:text-[3.90rem] text-text-primary leading-[1.1] tracking-tight mb-6">
             Your recruiting pipeline,
             <br />
             on autopilot.
           </h1>
-          <p className="text-base text-text-secondary max-w-md mb-10 leading-relaxed">
-            Connect Gmail once. Benched reads your inbox and builds your entire pipeline automatically —
-            applications, interviews, offers, ghosts.
-          </p>
+          {/* Flow diagram */}
+          <div className="flex items-center gap-2 mb-10 flex-wrap">
+            {[
+              { icon: Inbox, label: 'Connect to Gmail', sub: 'One-click OAuth' },
+              { icon: Sparkles, label: 'Benched reads inbox', sub: 'Every recruiting email' },
+              { icon: BarChart2, label: 'Pipeline auto-built', sub: 'Zero manual input' },
+            ].map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <div key={step.label} className="flex items-center gap-2">
+                  <div className="flex flex-col items-start bg-surface border border-border rounded-xl p-5 shadow-sm w-52">
+                    <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-surface-muted border border-border mb-3">
+                      <Icon className="h-4 w-4 text-text-secondary" />
+                    </div>
+                    <p className="text-sm font-semibold text-text-primary leading-snug">{step.label}</p>
+                    <p className="text-xs text-text-muted leading-tight mt-1">{step.sub}</p>
+                  </div>
+                  {i < 2 && <ArrowRight className="h-3.5 w-3.5 text-text-muted shrink-0" />}
+                </div>
+              );
+            })}
+          </div>
           <div className="flex flex-col sm:flex-row items-start gap-3">
             <Link
               href="/login"
@@ -105,41 +72,7 @@ export default function LandingPage() {
             Read-only access · No emails stored · Takes 30 seconds
           </p>
 
-          {/* Mock dashboard */}
-          <div className="mt-16 bg-surface border border-border rounded-2xl shadow-2xl overflow-hidden">
-            {/* Window chrome */}
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-surface-muted">
-              <div className="h-2.5 w-2.5 rounded-full bg-danger" />
-              <div className="h-2.5 w-2.5 rounded-full bg-warning" />
-              <div className="h-2.5 w-2.5 rounded-full bg-success" />
-              <span className="ml-2 text-xs text-text-muted font-medium">Benched — Pipeline</span>
-            </div>
-            <div className="p-4 grid grid-cols-5 gap-3">
-              {MOCK_COLUMNS.map((col) => (
-                <div key={col.stage} className="bg-surface-muted rounded-xl p-3 min-w-0">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-semibold text-text-secondary">{col.stage}</span>
-                    <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${col.badge}`}>
-                      {col.count}
-                    </span>
-                  </div>
-                  {col.cards.map((card, i) => (
-                    <div
-                      key={i}
-                      className="bg-surface rounded-lg mb-1.5 border border-border p-2.5 flex items-center gap-2"
-                    >
-                      <CompanyLogoMock company={card.company} domain={card.domain} />
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[11px] font-semibold text-text-primary truncate leading-tight">{card.company}</p>
-                        <p className="text-[10px] text-text-muted truncate leading-tight mt-0.5">{card.role}</p>
-                      </div>
-                      <span className="text-[9px] text-text-muted shrink-0">{card.time}</span>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
+          <MockKanban />
         </section>
       </div>
 

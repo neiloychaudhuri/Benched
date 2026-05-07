@@ -3,7 +3,7 @@
 import { Application, PipelineStage, STAGE_LABELS } from '@/types';
 import { formatRelativeTime, formatCompanyName } from '@/lib/utils';
 import { CompanyLogo } from '@/components/ui/CompanyLogo';
-import { Ghost } from 'lucide-react';
+import { Ghost, Pencil } from 'lucide-react';
 
 const STAGE_BADGE_STYLES: Record<PipelineStage, string> = {
   applied: 'bg-zinc-100 text-zinc-600',
@@ -19,15 +19,16 @@ const STAGE_BADGE_STYLES: Record<PipelineStage, string> = {
 
 interface ApplicationCardProps {
   application: Application;
+  onEdit?: (app: Application) => void;
 }
 
-export function ApplicationCard({ application }: ApplicationCardProps) {
+export function ApplicationCard({ application, onEdit }: ApplicationCardProps) {
   const isGhosted = application.is_ghosted;
   const displayName = formatCompanyName(application.company_name);
 
   return (
     <div
-      className={`bg-surface border border-border rounded-lg p-3 hover:shadow-sm transition-shadow cursor-grab active:cursor-grabbing select-none ${
+      className={`group bg-surface border border-border rounded-lg p-3 hover:shadow-sm transition-shadow cursor-grab active:cursor-grabbing select-none ${
         isGhosted ? 'opacity-60' : ''
       }`}
     >
@@ -44,6 +45,16 @@ export function ApplicationCard({ application }: ApplicationCardProps) {
             </p>
           )}
         </div>
+        {onEdit && (
+          <button
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => { e.stopPropagation(); onEdit(application); }}
+            className="opacity-0 group-hover:opacity-100 p-1 rounded-md hover:bg-surface-muted text-text-muted hover:text-text-secondary transition-all shrink-0"
+            title="Edit"
+          >
+            <Pencil className="h-3 w-3" />
+          </button>
+        )}
       </div>
       <div className="mt-2 flex items-center flex-wrap gap-x-2 gap-y-1">
         <span

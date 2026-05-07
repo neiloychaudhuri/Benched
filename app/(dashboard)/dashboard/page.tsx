@@ -9,6 +9,7 @@ import { ViewToggle, ViewMode } from '@/components/pipeline/ViewToggle';
 import { SyncButton } from '@/components/layout/SyncButton';
 import { Onboarding } from '@/components/Onboarding';
 import { FilterBar, Filters, DEFAULT_FILTERS } from '@/components/pipeline/FilterBar';
+import { EditApplicationModal } from '@/components/pipeline/EditApplicationModal';
 
 const TERMINAL_STAGES: PipelineStage[] = ['ghosted', 'rejected'];
 
@@ -19,6 +20,7 @@ export default function DashboardPage() {
   const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
+  const [editingApp, setEditingApp] = useState<Application | null>(null);
   const onboardingDismissed = useRef(false);
 
   const fetchApplications = useCallback(async () => {
@@ -77,6 +79,10 @@ export default function DashboardPage() {
   async function handleDelete(id: string) {
     setApplications((prev) => prev.filter((a) => a.id !== id));
     await fetch(`/api/applications/${id}`, { method: 'DELETE' });
+  }
+
+  function handleUpdate(updated: Application) {
+    setApplications((prev) => prev.map((a) => (a.id === updated.id ? updated : a)));
   }
 
   const ghostedCount = applications.filter((a) => a.is_ghosted).length;
@@ -147,11 +153,21 @@ export default function DashboardPage() {
         <KanbanBoard
           applications={filteredApplications}
           onStageChange={handleStageChange}
+          onEdit={setEditingApp}
         />
       ) : (
         <ListView
           applications={filteredApplications}
           onStageChange={handleStageChange}
+          onEdit={setEditingApp}
+        />
+      )}
+
+      {editingApp && (
+        <EditApplicationModal
+          application={editingApp}
+          onClose={() => setEditingApp(null)}
+          onSave={handleUpdate}
           onDelete={handleDelete}
         />
       )}
