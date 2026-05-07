@@ -207,7 +207,7 @@ export async function POST(request: NextRequest) {
           applied_at: info.appliedAt.toISOString(),
           last_activity_at: info.lastActivityAt.toISOString(),
           original_company_name: companyName,
-          original_role_title: info.roleTitle ?? null,
+          original_role_title: null,
           original_stage: info.stage,
         });
         summary.new_applications++;
