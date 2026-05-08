@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Inbox, Sparkles, BarChart2, Ghost, Share2, Shield } from 'lucide-react';
+import { ArrowRight, ArrowDownRight, ArrowDownLeft, Inbox, Sparkles, BarChart2, Ghost, Share2, Shield } from 'lucide-react';
 import Iridescence from '@/components/ui/Iridescence';
 import { MockKanban } from '@/components/ui/MockKanban';
 import { CompanyLogoMock } from '@/components/ui/CompanyLogoMock';
@@ -37,7 +37,7 @@ export default function LandingPage() {
             on autopilot.
           </h1>
           {/* Flow diagram */}
-          <div className="flex items-center gap-2 mb-10 flex-wrap">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-10">
             {[
               { icon: Inbox, label: 'Connect to Gmail', sub: 'One-click OAuth' },
               { icon: Sparkles, label: 'Benched reads inbox', sub: 'Every recruiting email' },
@@ -45,15 +45,17 @@ export default function LandingPage() {
             ].map((step, i) => {
               const Icon = step.icon;
               return (
-                <div key={step.label} className="flex items-center gap-2">
-                  <div className="flex flex-col items-start bg-surface border border-border rounded-xl p-5 shadow-sm w-52">
+                <div key={step.label} className="flex flex-col sm:flex-row sm:items-center gap-2">
+                  <div className="flex flex-col items-start bg-surface border border-border rounded-xl p-5 shadow-sm w-full sm:w-52">
                     <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-surface-muted border border-border mb-3">
                       <Icon className="h-4 w-4 text-text-secondary" />
                     </div>
                     <p className="text-sm font-semibold text-text-primary leading-snug">{step.label}</p>
                     <p className="text-xs text-text-muted leading-tight mt-1">{step.sub}</p>
                   </div>
-                  {i < 2 && <ArrowRight className="h-3.5 w-3.5 text-text-muted shrink-0" />}
+                  {i < 2 && (
+                    <ArrowRight className="h-3.5 w-3.5 text-text-muted shrink-0 rotate-90 sm:rotate-0 self-center" />
+                  )}
                 </div>
               );
             })}
@@ -78,7 +80,7 @@ export default function LandingPage() {
 
       {/* Stats strip */}
       <div className="border-y border-border bg-surface">
-        <div className="max-w-6xl mx-auto px-6 py-5 grid grid-cols-4 gap-6">
+        <div className="max-w-6xl mx-auto px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             ['Applications tracked', 'from your inbox'],
             ['No spreadsheet', 'no manual updates'],
@@ -99,8 +101,8 @@ export default function LandingPage() {
         <h2 className="font-serif text-4xl text-text-primary mb-16 max-w-lg leading-snug">
           From inbox to pipeline in 30 seconds.
         </h2>
-        <div className="grid md:grid-cols-3 gap-12">
-          {[
+        {(() => {
+          const steps = [
             {
               step: '01',
               icon: Inbox,
@@ -119,23 +121,62 @@ export default function LandingPage() {
               title: 'Your pipeline, live',
               desc: 'A Kanban board updates in real time. No imports, no tagging, no maintenance.',
             },
-          ].map((item) => {
-            const Icon = item.icon;
-            return (
-              <div key={item.step}>
-                <div className="flex items-center gap-3 mb-5">
-                  <span className="font-mono text-xs text-text-muted font-medium">{item.step}</span>
-                  <div className="h-px flex-1 bg-border" />
-                </div>
-                <div className="inline-flex items-center justify-center w-10 h-10 bg-surface-muted border border-border rounded-xl mb-4">
-                  <Icon className="h-4 w-4 text-text-secondary" />
-                </div>
-                <h3 className="text-base font-semibold text-text-primary mb-2">{item.title}</h3>
-                <p className="text-text-secondary text-sm leading-relaxed">{item.desc}</p>
+          ];
+          return (
+            <>
+              {/* Mobile zig-zag */}
+              <div className="md:hidden">
+                {steps.map((item, i) => {
+                  const Icon = item.icon;
+                  const isRight = i % 2 === 1;
+                  return (
+                    <div key={item.step}>
+                      <div className={`flex flex-col max-w-[80%] ${isRight ? 'ml-auto items-end' : 'items-start'}`}>
+                        <div className={`flex items-center gap-3 mb-4 w-full ${isRight ? 'flex-row-reverse' : ''}`}>
+                          <span className="font-mono text-xs text-text-muted font-medium">{item.step}</span>
+                          <div className="h-px flex-1 bg-border" />
+                        </div>
+                        <div className="inline-flex items-center justify-center w-10 h-10 bg-surface-muted border border-border rounded-xl mb-3">
+                          <Icon className="h-4 w-4 text-text-secondary" />
+                        </div>
+                        <h3 className={`text-base font-semibold text-text-primary mb-2 ${isRight ? 'text-right' : ''}`}>{item.title}</h3>
+                        <p className={`text-text-secondary text-sm leading-relaxed ${isRight ? 'text-right' : ''}`}>{item.desc}</p>
+                      </div>
+                      {i < steps.length - 1 && (
+                        <div className={`py-5 flex ${isRight ? 'justify-start pl-6' : 'justify-end pr-6'}`}>
+                          {isRight
+                            ? <ArrowDownLeft className="h-4 w-4 text-text-muted" />
+                            : <ArrowDownRight className="h-4 w-4 text-text-muted" />
+                          }
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
+
+              {/* Desktop grid */}
+              <div className="hidden md:grid grid-cols-3 gap-12">
+                {steps.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={item.step}>
+                      <div className="flex items-center gap-3 mb-5">
+                        <span className="font-mono text-xs text-text-muted font-medium">{item.step}</span>
+                        <div className="h-px flex-1 bg-border" />
+                      </div>
+                      <div className="inline-flex items-center justify-center w-10 h-10 bg-surface-muted border border-border rounded-xl mb-4">
+                        <Icon className="h-4 w-4 text-text-secondary" />
+                      </div>
+                      <h3 className="text-base font-semibold text-text-primary mb-2">{item.title}</h3>
+                      <p className="text-text-secondary text-sm leading-relaxed">{item.desc}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          );
+        })()}
       </section>
 
       {/* Ghost detector */}
