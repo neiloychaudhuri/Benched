@@ -1,8 +1,10 @@
 import Link from 'next/link';
-import { ArrowRight, ArrowDownRight, Inbox, Sparkles, BarChart2, Ghost, Share2, Shield } from 'lucide-react';
+import { ArrowRight, Inbox, Sparkles, BarChart2, Ghost, Share2, Shield } from 'lucide-react';
 import Iridescence from '@/components/ui/Iridescence';
 import { MockKanban } from '@/components/ui/MockKanban';
 import { CompanyLogoMock } from '@/components/ui/CompanyLogoMock';
+import CurvedLoop from '@/components/ui/CurvedLoop';
+import Stack from '@/components/ui/Stack';
 
 export default function LandingPage() {
   return (
@@ -36,36 +38,50 @@ export default function LandingPage() {
             <br />
             on autopilot.
           </h1>
-          {/* Flow diagram — staircase */}
-          <div className="flex flex-col gap-0 mb-10">
-            {[
-              { icon: Inbox, label: 'Connect to Gmail', sub: 'One-click OAuth' },
-              { icon: Sparkles, label: 'Benched reads inbox', sub: 'Every recruiting email' },
-              { icon: BarChart2, label: 'Pipeline auto-built', sub: 'Zero manual input' },
-            ].map((step, i) => {
-              const Icon = step.icon;
-              return (
-                <div key={step.label}>
-                  <div
-                    className="flex items-center gap-2.5 bg-surface border border-border rounded-xl px-3 py-2.5 shadow-sm w-fit"
-                    style={{ marginLeft: `${i * 36}px` }}
-                  >
-                    <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-muted border border-border shrink-0">
-                      <Icon className="h-3.5 w-3.5 text-text-secondary" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-text-primary leading-snug">{step.label}</p>
-                      <p className="text-[10px] text-text-muted leading-tight">{step.sub}</p>
-                    </div>
+          {/* Flow diagram — stacked cards */}
+          <div className="mb-10" style={{ width: 224, height: 192 }}>
+            <Stack
+              autoplay
+              autoplayDelay={2800}
+              sendToBackOnClick
+              randomRotation
+              sensitivity={120}
+              cards={[
+                <div key="01" className="w-full h-full bg-surface border border-border rounded-2xl p-4 flex flex-col shadow-sm">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="font-mono text-[10px] text-text-muted">01</span>
+                    <div className="h-px flex-1 bg-border" />
                   </div>
-                  {i < 2 && (
-                    <div style={{ marginLeft: `${i * 36 + 14}px` }} className="py-0.5">
-                      <ArrowDownRight className="h-3.5 w-3.5 text-text-muted" />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                  <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-surface-muted border border-border mb-3">
+                    <Inbox className="h-3.5 w-3.5 text-text-secondary" />
+                  </div>
+                  <p className="text-sm font-semibold text-text-primary leading-snug mb-1">Connect to Gmail</p>
+                  <p className="text-[11px] text-text-muted leading-snug">One-click OAuth. Read-only access.</p>
+                </div>,
+                <div key="02" className="w-full h-full bg-surface border border-border rounded-2xl p-4 flex flex-col shadow-sm">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="font-mono text-[10px] text-text-muted">02</span>
+                    <div className="h-px flex-1 bg-border" />
+                  </div>
+                  <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-surface-muted border border-border mb-3">
+                    <Sparkles className="h-3.5 w-3.5 text-text-secondary" />
+                  </div>
+                  <p className="text-sm font-semibold text-text-primary leading-snug mb-1">AI reads your inbox</p>
+                  <p className="text-[11px] text-text-muted leading-snug">Every recruiting email, classified automatically.</p>
+                </div>,
+                <div key="03" className="w-full h-full bg-surface border border-border rounded-2xl p-4 flex flex-col shadow-sm">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="font-mono text-[10px] text-text-muted">03</span>
+                    <div className="h-px flex-1 bg-border" />
+                  </div>
+                  <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-surface-muted border border-border mb-3">
+                    <BarChart2 className="h-3.5 w-3.5 text-text-secondary" />
+                  </div>
+                  <p className="text-sm font-semibold text-text-primary leading-snug mb-1">Pipeline auto-built</p>
+                  <p className="text-[11px] text-text-muted leading-snug">Zero manual input. Live Kanban board.</p>
+                </div>,
+              ]}
+            />
           </div>
           <div className="flex flex-col sm:flex-row items-start gap-3">
             <Link
@@ -85,21 +101,26 @@ export default function LandingPage() {
         </section>
       </div>
 
-      {/* Stats strip — infinite marquee */}
+      {/* Stats strip — CurvedLoop on mobile, static grid on desktop */}
       <div className="border-y border-border bg-surface overflow-hidden">
-        <div className="flex animate-marquee w-max">
+        <div className="md:hidden text-text-primary">
+          <CurvedLoop
+            marqueeText="Applications Tracked ✦ No Spreadsheet ✦ Ghost Detection ✦ Recruiting Wrapped ✦"
+            speed={1.4}
+            curveAmount={50}
+            interactive={false}
+            wrapperClassName="flex items-center justify-center w-full py-2"
+            className="text-[2.4rem] font-semibold"
+          />
+        </div>
+        <div className="hidden md:grid grid-cols-4 gap-6 max-w-6xl mx-auto px-6 py-5">
           {[
             ['Applications tracked', 'from your inbox'],
             ['No spreadsheet', 'no manual updates'],
             ['Ghost detection', '14-day silence rule'],
             ['Recruiting Wrapped', 'shareable stats card'],
-            ['Applications tracked', 'from your inbox'],
-            ['No spreadsheet', 'no manual updates'],
-            ['Ghost detection', '14-day silence rule'],
-            ['Recruiting Wrapped', 'shareable stats card'],
-          ].map(([stat, desc], i) => (
-            <div key={i} className="flex items-center gap-2 whitespace-nowrap px-8 py-5 shrink-0">
-              <span className="w-1 h-1 rounded-full bg-text-muted/40 shrink-0" />
+          ].map(([stat, desc]) => (
+            <div key={stat} className="flex items-baseline gap-2">
               <span className="text-sm font-semibold text-text-primary">{stat}</span>
               <span className="text-xs text-text-muted">{desc}</span>
             </div>
