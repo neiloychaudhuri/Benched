@@ -242,7 +242,7 @@ export default function LandingPage() {
       {/* Wrapped */}
       <section className="max-w-6xl mx-auto px-6 py-24">
         <div className="grid md:grid-cols-2 gap-16 items-center">
-          <div className="block mx-auto md:mx-0 bg-gradient-to-br from-zinc-100 to-white border border-zinc-200 rounded-2xl p-8 shadow-lg text-left w-full max-w-sm">
+          <div className="block mx-auto md:mx-0 bg-gradient-to-br from-zinc-100 to-white border border-zinc-200 rounded-2xl p-8 shadow-lg text-left w-full max-w-sm order-2 md:order-1">
             <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-1">
               Benched Wrapped
             </p>
@@ -262,7 +262,7 @@ export default function LandingPage() {
             </div>
             <p className="text-[10px] text-text-muted">getbenched.co</p>
           </div>
-          <div>
+          <div className="order-1 md:order-2">
             <div className="flex items-center gap-3 mb-4">
               <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0">
                 <Share2 className="h-4 w-4 text-white" />
