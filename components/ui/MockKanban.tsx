@@ -299,29 +299,30 @@ function EditModal({
 }
 
 function StaticMobileKanban() {
+  const cols = [INITIAL_COLUMNS[0], INITIAL_COLUMNS[2], INITIAL_COLUMNS[3]]; // Applied, Interview, Offer
   return (
     <div className="mt-10 bg-surface border border-border rounded-2xl shadow-2xl overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-surface-muted">
-        <div className="h-2.5 w-2.5 rounded-full bg-danger" />
-        <div className="h-2.5 w-2.5 rounded-full bg-warning" />
-        <div className="h-2.5 w-2.5 rounded-full bg-success" />
-        <span className="ml-2 text-xs text-text-muted font-medium">Benched — Pipeline</span>
+      <div className="flex items-center gap-1.5 px-3 py-2.5 border-b border-border bg-surface-muted">
+        <div className="h-2 w-2 rounded-full bg-danger" />
+        <div className="h-2 w-2 rounded-full bg-warning" />
+        <div className="h-2 w-2 rounded-full bg-success" />
+        <span className="ml-1.5 text-[10px] text-text-muted font-medium">Benched — Pipeline</span>
       </div>
-      <div className="p-3 flex gap-3 overflow-x-auto">
-        {INITIAL_COLUMNS.map((col) => (
-          <div key={col.stage} className="bg-surface-muted rounded-xl p-3 min-w-[148px] flex-shrink-0">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold text-text-secondary truncate mr-2">{col.stage}</span>
-              <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold shrink-0 ${col.badge}`}>
+      <div className="p-2 grid grid-cols-3 gap-2">
+        {cols.map((col) => (
+          <div key={col.stage} className="bg-surface-muted rounded-lg p-2">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[9px] font-semibold text-text-secondary truncate mr-1">{col.stage}</span>
+              <span className={`text-[9px] px-1 py-0.5 rounded-full font-semibold shrink-0 ${col.badge}`}>
                 {col.cards.length}
               </span>
             </div>
             {col.cards.slice(0, 2).map((card) => (
-              <div key={card.id} className="bg-surface rounded-lg mb-1.5 border border-border p-2 flex items-center gap-2">
+              <div key={card.id} className="bg-surface rounded-md mb-1 border border-border p-1.5 flex items-center gap-1.5">
                 <CompanyLogoMock company={card.company} domain={card.domain} />
                 <div className="min-w-0">
-                  <p className="text-[11px] font-semibold text-text-primary truncate leading-tight">{card.company}</p>
-                  <p className="text-[10px] text-text-muted truncate leading-tight mt-0.5">{card.role}</p>
+                  <p className="text-[9px] font-semibold text-text-primary truncate leading-tight">{card.company}</p>
+                  <p className="text-[8px] text-text-muted truncate leading-tight">{card.role}</p>
                 </div>
               </div>
             ))}

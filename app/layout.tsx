@@ -34,7 +34,7 @@ export default function RootLayout({
       lang="en"
       className={`${manrope.variable} ${plusJakartaSans.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col overflow-x-hidden">
         {children}
         <Analytics />
       </body>
