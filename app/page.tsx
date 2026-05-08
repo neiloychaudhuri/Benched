@@ -199,9 +199,12 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <Ghost className="h-5 w-5 text-text-secondary shrink-0" />
+                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0">
+                  <Ghost className="h-4 w-4 text-white" />
+                </div>
                 <h2 className="font-serif text-4xl text-text-primary leading-snug">
-                  Know exactly when you&apos;re being ghosted.
+                  <span className="md:hidden">Know when you&apos;re ghosted.</span>
+                  <span className="hidden md:inline">Know exactly when you&apos;re being ghosted.</span>
                 </h2>
               </div>
               <p className="text-text-secondary text-sm leading-relaxed max-w-sm">
@@ -261,7 +264,9 @@ export default function LandingPage() {
           </div>
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <Share2 className="h-5 w-5 text-text-secondary shrink-0" />
+              <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0">
+                <Share2 className="h-4 w-4 text-white" />
+              </div>
               <h2 className="font-serif text-4xl text-text-primary leading-snug">
                 Recruiting Wrapped.
               </h2>
