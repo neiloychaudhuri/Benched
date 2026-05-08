@@ -198,8 +198,8 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="flex items-start gap-3 mb-4">
-                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0 mt-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0">
                   <Ghost className="h-4 w-4 text-white" />
                 </div>
                 <h2 className="font-serif text-2xl md:text-4xl text-text-primary leading-snug">
@@ -263,8 +263,8 @@ export default function LandingPage() {
             <p className="text-[10px] text-text-muted">getbenched.co</p>
           </div>
           <div>
-            <div className="flex items-start gap-3 mb-4">
-              <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0 mt-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0">
                 <Share2 className="h-4 w-4 text-white" />
               </div>
               <h2 className="font-serif text-2xl md:text-4xl text-text-primary leading-snug">
