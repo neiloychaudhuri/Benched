@@ -133,14 +133,14 @@ export default function LandingPage() {
         />
       </div>
       <div className="hidden md:block border-y border-border bg-surface">
-        <div className="grid grid-cols-4 gap-6 max-w-6xl mx-auto px-6 py-5">
+        <div className="flex items-center justify-between max-w-6xl mx-auto px-6 py-5 gap-8">
           {[
             ['Applications tracked', 'from your inbox'],
             ['No spreadsheet', 'no manual updates'],
             ['Ghost detection', '14-day silence rule'],
             ['Recruiting Wrapped', 'shareable stats card'],
           ].map(([stat, desc]) => (
-            <div key={stat} className="flex items-baseline gap-2">
+            <div key={stat} className="flex items-baseline gap-2 whitespace-nowrap">
               <span className="text-base font-bold text-text-primary">{stat}</span>
               <span className="text-xs text-text-muted">{desc}</span>
             </div>
