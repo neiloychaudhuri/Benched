@@ -39,7 +39,7 @@ export default function LandingPage() {
             on autopilot.
           </h1>
           {/* Flow diagram — stacked cards */}
-          <div className="mb-10" style={{ width: 224, height: 192 }}>
+          <div className="mb-10 w-full max-w-[300px]" style={{ height: 200 }}>
             <Stack
               autoplay
               autoplayDelay={2800}
@@ -102,18 +102,18 @@ export default function LandingPage() {
       </div>
 
       {/* Stats strip — CurvedLoop on mobile, static grid on desktop */}
-      <div className="border-y border-border bg-surface overflow-hidden">
-        <div className="md:hidden text-text-primary">
-          <CurvedLoop
-            marqueeText="Applications Tracked ✦ No Spreadsheet ✦ Ghost Detection ✦ Recruiting Wrapped ✦"
-            speed={1.4}
-            curveAmount={50}
-            interactive={false}
-            wrapperClassName="flex items-center justify-center w-full py-2"
-            className="text-[2.4rem] font-semibold"
-          />
-        </div>
-        <div className="hidden md:grid grid-cols-4 gap-6 max-w-6xl mx-auto px-6 py-5">
+      <div className="md:hidden overflow-hidden text-text-primary">
+        <CurvedLoop
+          marqueeText="Applications Tracked ✦ No Spreadsheet ✦ Ghost Detection ✦ Recruiting Wrapped ✦"
+          speed={1.4}
+          curveAmount={40}
+          interactive={false}
+          wrapperClassName="flex items-center justify-center w-full"
+          fontSize="11rem"
+        />
+      </div>
+      <div className="hidden md:block border-y border-border bg-surface">
+        <div className="grid grid-cols-4 gap-6 max-w-6xl mx-auto px-6 py-5">
           {[
             ['Applications tracked', 'from your inbox'],
             ['No spreadsheet', 'no manual updates'],
@@ -121,7 +121,7 @@ export default function LandingPage() {
             ['Recruiting Wrapped', 'shareable stats card'],
           ].map(([stat, desc]) => (
             <div key={stat} className="flex items-baseline gap-2">
-              <span className="text-sm font-semibold text-text-primary">{stat}</span>
+              <span className="text-base font-bold text-text-primary">{stat}</span>
               <span className="text-xs text-text-muted">{desc}</span>
             </div>
           ))}
@@ -219,7 +219,7 @@ export default function LandingPage() {
       {/* Wrapped */}
       <section className="max-w-6xl mx-auto px-6 py-24">
         <div className="grid md:grid-cols-2 gap-16 items-center">
-          <div className="inline-block bg-gradient-to-br from-zinc-100 to-white border border-zinc-200 rounded-2xl p-8 shadow-lg text-left w-full max-w-sm">
+          <div className="block mx-auto md:mx-0 bg-gradient-to-br from-zinc-100 to-white border border-zinc-200 rounded-2xl p-8 shadow-lg text-left w-full max-w-sm">
             <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-1">
               Benched Wrapped
             </p>

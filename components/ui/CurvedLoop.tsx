@@ -10,6 +10,7 @@ interface CurvedLoopProps {
   direction?: 'left' | 'right';
   interactive?: boolean;
   wrapperClassName?: string;
+  fontSize?: string;
 }
 
 const CurvedLoop: FC<CurvedLoopProps> = ({
@@ -20,6 +21,7 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
   direction = 'left',
   interactive = true,
   wrapperClassName = 'min-h-screen flex items-center justify-center w-full',
+  fontSize = '6rem',
 }) => {
   const text = useMemo(() => {
     const hasTrailing = /\s| $/.test(marqueeText);
@@ -119,7 +121,8 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
       onPointerLeave={endDrag}
     >
       <svg
-        className="select-none w-full overflow-visible block aspect-[100/12] text-[6rem] font-bold uppercase leading-none"
+        className="select-none w-full overflow-visible block aspect-[100/12] font-bold uppercase leading-none"
+        style={{ fontSize }}
         viewBox="0 0 1440 120"
       >
         <text ref={measureRef} xmlSpace="preserve" style={{ visibility: 'hidden', opacity: 0, pointerEvents: 'none' }}>

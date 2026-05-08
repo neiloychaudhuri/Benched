@@ -87,11 +87,11 @@ export default function Stack({
   const shouldEnableClick = sendToBackOnClick || shouldDisableDrag;
 
   const [stack, setStack] = useState<{ id: number; content: React.ReactNode }[]>(() =>
-    cards.map((content, index) => ({ id: index + 1, content }))
+    cards.map((content, index) => ({ id: index + 1, content })).reverse()
   );
 
   useEffect(() => {
-    if (cards.length) setStack(cards.map((content, index) => ({ id: index + 1, content })));
+    if (cards.length) setStack(cards.map((content, index) => ({ id: index + 1, content })).reverse());
   }, [cards]);
 
   const sendToBack = (id: number) => {
