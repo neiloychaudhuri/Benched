@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Inbox, Sparkles, BarChart2, Ghost, Shield } from 'lucide-react';
+import { ArrowRight, Inbox, Sparkles, BarChart2, Ghost, Share2, Shield } from 'lucide-react';
 import Iridescence from '@/components/ui/Iridescence';
 import { MockKanban } from '@/components/ui/MockKanban';
 import { CompanyLogoMock } from '@/components/ui/CompanyLogoMock';
@@ -198,12 +198,12 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="inline-flex items-center justify-center w-10 h-10 bg-surface-muted border border-border rounded-xl mb-6">
-                <Ghost className="h-4 w-4 text-text-secondary" />
+              <div className="flex items-center gap-3 mb-4">
+                <Ghost className="h-5 w-5 text-text-secondary shrink-0" />
+                <h2 className="font-serif text-4xl text-text-primary leading-snug">
+                  Know exactly when you&apos;re being ghosted.
+                </h2>
               </div>
-              <h2 className="font-serif text-4xl text-text-primary mb-4 leading-snug">
-                Know exactly when you&apos;re being ghosted.
-              </h2>
               <p className="text-text-secondary text-sm leading-relaxed max-w-sm">
                 After 14 days of silence, Benched automatically flags an application as ghosted.
                 See the full list, track the pattern, and share it.
@@ -260,9 +260,12 @@ export default function LandingPage() {
             <p className="text-[10px] text-text-muted">getbenched.co</p>
           </div>
           <div>
-            <h2 className="font-serif text-4xl text-text-primary mb-4 leading-snug">
-              Recruiting Wrapped.
-            </h2>
+            <div className="flex items-center gap-3 mb-4">
+              <Share2 className="h-5 w-5 text-text-secondary shrink-0" />
+              <h2 className="font-serif text-4xl text-text-primary leading-snug">
+                Recruiting Wrapped.
+              </h2>
+            </div>
             <p className="text-text-secondary text-sm leading-relaxed max-w-sm">
               At the end of recruiting season, generate a shareable card with your full stats.
               Post it on LinkedIn or Twitter. Show your grind.
