@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Inbox, Sparkles, BarChart2, Ghost, Share2, Shield } from 'lucide-react';
+import { ArrowRight, Inbox, Sparkles, BarChart2, Ghost, Shield } from 'lucide-react';
 import Iridescence from '@/components/ui/Iridescence';
 import { MockKanban } from '@/components/ui/MockKanban';
 import { CompanyLogoMock } from '@/components/ui/CompanyLogoMock';
@@ -38,8 +38,28 @@ export default function LandingPage() {
             <br />
             on autopilot.
           </h1>
-          {/* Flow diagram — stacked cards */}
-          <div className="mb-10 w-full max-w-[300px]" style={{ height: 200 }}>
+          {/* Flow diagram — desktop: horizontal arrow cards */}
+          <div className="hidden md:flex items-center gap-2 mb-10">
+            {[
+              { step: '01', icon: Inbox, label: 'Connect to Gmail', sub: 'One-click OAuth' },
+              { step: '02', icon: Sparkles, label: 'Benched reads inbox', sub: 'Every recruiting email' },
+              { step: '03', icon: BarChart2, label: 'Pipeline auto-built', sub: 'Zero manual input' },
+            ].map(({ step, icon: Icon, label, sub }, i) => (
+              <div key={step} className="flex items-center gap-2">
+                <div className="flex flex-col items-start bg-surface border border-border rounded-xl p-5 shadow-sm w-52">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-surface-muted border border-border mb-3">
+                    <Icon className="h-4 w-4 text-text-secondary" />
+                  </div>
+                  <p className="text-sm font-semibold text-text-primary leading-snug">{label}</p>
+                  <p className="text-xs text-text-muted leading-tight mt-1">{sub}</p>
+                </div>
+                {i < 2 && <ArrowRight className="h-3.5 w-3.5 text-text-muted shrink-0" />}
+              </div>
+            ))}
+          </div>
+
+          {/* Flow diagram — mobile: Stack cards */}
+          <div className="md:hidden mb-10 mx-auto" style={{ width: '90%', height: 200 }}>
             <Stack
               autoplay
               autoplayDelay={2800}
@@ -105,11 +125,11 @@ export default function LandingPage() {
       <div className="md:hidden overflow-hidden text-text-primary">
         <CurvedLoop
           marqueeText="Applications Tracked ✦ No Spreadsheet ✦ Ghost Detection ✦ Recruiting Wrapped ✦"
-          speed={1.4}
+          speed={2}
           curveAmount={40}
           interactive={false}
           wrapperClassName="flex items-center justify-center w-full"
-          fontSize="11rem"
+          fontSize="8rem"
         />
       </div>
       <div className="hidden md:block border-y border-border bg-surface">
@@ -240,9 +260,6 @@ export default function LandingPage() {
             <p className="text-[10px] text-text-muted">getbenched.co</p>
           </div>
           <div>
-            <div className="inline-flex items-center justify-center w-10 h-10 bg-surface-muted border border-border rounded-xl mb-6">
-              <Share2 className="h-4 w-4 text-text-secondary" />
-            </div>
             <h2 className="font-serif text-4xl text-text-primary mb-4 leading-snug">
               Recruiting Wrapped.
             </h2>
