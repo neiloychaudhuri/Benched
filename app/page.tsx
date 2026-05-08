@@ -129,7 +129,7 @@ export default function LandingPage() {
           curveAmount={40}
           interactive={false}
           wrapperClassName="flex items-center justify-center w-full"
-          fontSize="8rem"
+          fontSize="5rem"
         />
       </div>
       <div className="hidden md:block border-y border-border bg-surface">
@@ -198,11 +198,11 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0">
+              <div className="flex items-start gap-3 mb-4">
+                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0 mt-1">
                   <Ghost className="h-4 w-4 text-white" />
                 </div>
-                <h2 className="font-serif text-4xl text-text-primary leading-snug">
+                <h2 className="font-serif text-2xl md:text-4xl text-text-primary leading-snug">
                   <span className="md:hidden">Know when you&apos;re ghosted.</span>
                   <span className="hidden md:inline">Know exactly when you&apos;re being ghosted.</span>
                 </h2>
@@ -263,11 +263,11 @@ export default function LandingPage() {
             <p className="text-[10px] text-text-muted">getbenched.co</p>
           </div>
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 shrink-0 mt-1">
                 <Share2 className="h-4 w-4 text-white" />
               </div>
-              <h2 className="font-serif text-4xl text-text-primary leading-snug">
+              <h2 className="font-serif text-2xl md:text-4xl text-text-primary leading-snug">
                 Recruiting Wrapped.
               </h2>
             </div>
