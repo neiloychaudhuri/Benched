@@ -22,7 +22,7 @@ export default function LoginPage() {
           access_type: 'offline',
           prompt: 'consent',
         },
-        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
     if (error) {
