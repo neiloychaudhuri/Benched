@@ -75,13 +75,15 @@ export default function SharePage() {
 
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         {/* Card preview */}
-        <div className="flex-1 overflow-auto">
-          <WrappedCard
-            ref={cardRef}
-            stats={stats}
-            season={getSeason()}
-            accentColor={accent}
-          />
+        <div className="flex-1 min-w-0 overflow-hidden md:overflow-visible">
+          <div className="origin-top-left scale-[0.56] md:scale-100 mb-[-139px] md:mb-0">
+            <WrappedCard
+              ref={cardRef}
+              stats={stats}
+              season={getSeason()}
+              accentColor={accent}
+            />
+          </div>
         </div>
 
         {/* Controls */}

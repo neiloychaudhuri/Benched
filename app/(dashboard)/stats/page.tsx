@@ -61,7 +61,20 @@ export default function StatsPage() {
           <h2 className="text-base font-semibold text-text-primary mb-6">
             Top Companies Applied To
           </h2>
-          <div className="flex gap-6 items-stretch">
+
+          {/* Mobile: simple list */}
+          <div className="md:hidden space-y-2">
+            {stats.top_companies.map((company, i) => (
+              <div key={company} className="flex items-center gap-3 p-2.5 bg-surface border border-border rounded-lg">
+                <span className="text-xs font-mono text-text-muted w-4 shrink-0 text-right">{i + 1}</span>
+                <CompanyLogoMock company={company} domain={`${company.toLowerCase().replace(/\s+/g, '')}.com`} size="sm" />
+                <span className="text-sm font-medium text-text-primary capitalize">{company}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: podium + list */}
+          <div className="hidden md:flex gap-6 items-stretch">
             {/* Podium — top 3 */}
             <div className="flex gap-2 shrink-0 items-stretch">
               {/* 2nd — silver, offset down a bit */}
