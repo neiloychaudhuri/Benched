@@ -61,33 +61,33 @@ export default function StatsPage() {
           <h2 className="text-base font-semibold text-text-primary mb-6">
             Top Companies Applied To
           </h2>
-          <div className="flex gap-6 items-start">
+          <div className="flex gap-6 items-stretch">
             {/* Podium — top 3 */}
-            <div className="flex items-end gap-2 shrink-0">
-              {/* 2nd — silver */}
+            <div className="flex gap-2 shrink-0 items-stretch">
+              {/* 2nd — silver, offset down a bit */}
               {stats.top_companies[1] && (
-                <div className="flex flex-col items-center w-24">
+                <div className="flex flex-col items-center w-24 pt-10">
                   <CompanyLogoMock company={stats.top_companies[1]} domain={`${stats.top_companies[1].toLowerCase().replace(/\s+/g, '')}.com`} size="md" />
                   <span className="text-[11px] font-medium text-text-primary text-center mt-1.5 mb-2 leading-tight line-clamp-2 capitalize">{stats.top_companies[1]}</span>
-                  <div className="w-full h-14 bg-zinc-100 border border-zinc-200 rounded-t-lg flex items-center justify-center">
+                  <div className="flex-1 min-h-0 w-full bg-zinc-100 border border-zinc-200 rounded-t-lg flex items-center justify-center">
                     <span className="text-base font-bold text-zinc-400">2</span>
                   </div>
                 </div>
               )}
-              {/* 1st — gold */}
+              {/* 1st — gold, no offset (tallest bar) */}
               <div className="flex flex-col items-center w-24">
                 <CompanyLogoMock company={stats.top_companies[0]} domain={`${stats.top_companies[0].toLowerCase().replace(/\s+/g, '')}.com`} size="md" />
                 <span className="text-[11px] font-medium text-text-primary text-center mt-1.5 mb-2 leading-tight line-clamp-2 capitalize">{stats.top_companies[0]}</span>
-                <div className="w-full h-20 bg-amber-50 border border-amber-200 rounded-t-lg flex items-center justify-center">
+                <div className="flex-1 min-h-0 w-full bg-amber-50 border border-amber-200 rounded-t-lg flex items-center justify-center">
                   <span className="text-base font-bold text-amber-500">1</span>
                 </div>
               </div>
-              {/* 3rd — bronze */}
+              {/* 3rd — bronze, most offset (shortest bar) */}
               {stats.top_companies[2] && (
-                <div className="flex flex-col items-center w-24">
+                <div className="flex flex-col items-center w-24 pt-20">
                   <CompanyLogoMock company={stats.top_companies[2]} domain={`${stats.top_companies[2].toLowerCase().replace(/\s+/g, '')}.com`} size="md" />
                   <span className="text-[11px] font-medium text-text-primary text-center mt-1.5 mb-2 leading-tight line-clamp-2 capitalize">{stats.top_companies[2]}</span>
-                  <div className="w-full h-10 bg-orange-50 border border-orange-200 rounded-t-lg flex items-center justify-center">
+                  <div className="flex-1 min-h-0 w-full bg-orange-50 border border-orange-200 rounded-t-lg flex items-center justify-center">
                     <span className="text-base font-bold text-orange-400">3</span>
                   </div>
                 </div>
